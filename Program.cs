@@ -1,9 +1,21 @@
+using Microsoft.EntityFrameworkCore;
+using CerasWorkshop.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("ProductConnection")));
+
 var app = builder.Build();
+
+// Seed Data
+using (var scope = app.Services.CreateScope())
+{
+        SeedData.Initialize(scope.ServiceProvider);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
