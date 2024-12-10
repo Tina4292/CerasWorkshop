@@ -10,27 +10,55 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+<div class="row">
+    <form class="d-flex" role="search" asp-page="./Index" method="get">
+        <div class="col-3">
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input class="form-control me-2" type="search" name="CurrentSearch" value="@Model.CurrentSearch" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Order[0].FirstName)
+                @{
+                    //Alternate sort order first name
+                    var firstSort = "first_asc";
+                    if (Model.CurrentSort == "first_asc")
+                    {
+                        firstSort = "first_desc";
+                    }
+                }
+                <a asp-page="./Index" asp-route-CurrentSort="@firstSort" asp-route-PageNum="@Model.PageNum">@Html.DisplayNameFor(model => model.Order[0].FirstName)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Order[0].LastName)
+                 @{
+                    //Alternate sort order last name
+                    var lastSort = "last_asc";
+                    if (Model.CurrentSort == "last_asc")
+                    {
+                        lastSort = "last_desc";
+                    }
+                }
+                <a asp-page="./Index" asp-route-CurrentSort="@lastSort" asp-route-PageNum="@Model.PageNum">@Html.DisplayNameFor(model => model.Order[0].LastName)</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Order[0].ProductOrders)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Order[0].ProductOrders.Product.price)
+                @Html.DisplayNameFor(model => model.Order[0].ProductOrders![0].Product.Price)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Order) {
-        <tr>
+        @foreach (var item in Model.Order) 
+        {
+            <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
@@ -48,11 +76,40 @@
                 }
             </td>
             <td>
+                @foreach (var product in item.ProductOrders!)
+                {
+                    @product.Product.Price.ToString("C") <br />
+                }
+            </td>
+            <td>
                 <a asp-page="./Edit" asp-route-id="@item.OrderID">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.OrderID">Details</a> |
                 <a asp-page="./Delete" asp-route-id="@item.OrderID">Delete</a>
             </td>
-        </tr>
-}
+            </tr>
+        }
     </tbody>
 </table>
+
+<hr />
+@{
+    // If we are on page 1, prevDisabled will be set to the "disabled" class
+    // otherwise, it will be empty. So our previous button will be enabled or disabled based on this logic
+    var prevDisabled = "";
+    var nextDisabled = "";
+    if (Model.PageNum <= 1)
+    {
+        prevDisabled = "disabled";
+    }
+    if (Model.PageNum >= Model.TotalPages)
+    {
+        nextDisabled = "disabled";
+    }
+}
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <!-- added asp-route-CurrentSearch to pagination successfully -->
+        <li class="page-item @prevDisabled"><a class="page-link" asp-page="./Index" asp-route-CurrentSearch="@Model.CurrentSearch" asp-route-CurrentSort="@Model.CurrentSort" asp-route-PageNum="@(Model.PageNum - 1)">Previous</a></li>
+        <li class="page-item @nextDisabled"><a class="page-link" asp-page="./Index" asp-route-CurrentSearch="@Model.CurrentSearch" asp-route-CurrentSort="@Model.CurrentSort" asp-route-PageNum="@(Model.PageNum + 1)">Next</a></li>
+    </ul>
+</nav>
