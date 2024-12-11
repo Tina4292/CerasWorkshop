@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CerasWorkshop.Models;
 
@@ -14,6 +15,9 @@ public class Product
 
     [DataType(DataType.Currency)]
     public decimal Price {get; set;}
+
+    [Display(Name = "Product Image")]
+    public string ImageURL {get; set;} = string.Empty;
 
     public List<ProductOrder>? ProductOrders {get; set;} = default!; //Navigation property
 }

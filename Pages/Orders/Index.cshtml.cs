@@ -37,7 +37,7 @@ namespace CerasWorkshop.Pages_Orders
 
             if (!string.IsNullOrEmpty(CurrentSearch))
             {
-                query = query.Where(p => p.FirstName.ToUpper().Contains(CurrentSearch.ToUpper()) || p.LastName.ToUpper().Contains(CurrentSearch.ToUpper()) || p.ProductOrders!.Any(p => p.Product.Name.ToUpper().Contains(CurrentSearch.ToUpper())));
+                query = query.Where(p => p.FirstName.ToUpper().Contains(CurrentSearch.ToUpper()) || p.LastName.ToUpper().Contains(CurrentSearch.ToUpper()) || p.OrderID.ToString().Contains(CurrentSearch) || p.ProductOrders!.Any(p => p.Product.Name.ToUpper().Contains(CurrentSearch.ToUpper())));
             }
 
             switch (CurrentSort)

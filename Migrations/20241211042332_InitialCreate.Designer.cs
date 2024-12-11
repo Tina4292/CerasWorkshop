@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CerasWorkshop.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241201203910_InitialCreate")]
+    [Migration("20241211042332_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -49,6 +49,10 @@ namespace CerasWorkshop.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(150)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImageURL")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")

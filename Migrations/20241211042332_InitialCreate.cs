@@ -32,7 +32,8 @@ namespace CerasWorkshop.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
-                    Price = table.Column<decimal>(type: "TEXT", nullable: false)
+                    Price = table.Column<decimal>(type: "TEXT", nullable: false),
+                    ImageURL = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
