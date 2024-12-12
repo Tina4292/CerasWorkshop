@@ -21,6 +21,6 @@ public class ProductModel : PageModel
 
     public void OnGet()
     {
-        
+        Product = _context.Products.ToList();
     }
 }

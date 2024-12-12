@@ -76,10 +76,7 @@
                 }
             </td>
             <td>
-                @foreach (var product in item.ProductOrders!)
-                {
-                    @product.Product.Price.ToString("C") <br />
-                }
+                @Html.DisplayFor(model => model.Total)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.OrderID">Edit</a> |

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CerasWorkshop.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241211042332_InitialCreate")]
+    [Migration("20241211163843_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

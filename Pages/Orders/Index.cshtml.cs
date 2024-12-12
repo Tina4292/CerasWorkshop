@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CerasWorkshop.Models;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CerasWorkshop.Pages_Orders
 {
@@ -19,6 +21,7 @@ namespace CerasWorkshop.Pages_Orders
         }
 
         public IList<Order> Order { get;set; } = default!;
+        public Product Product {get; set;} = default!;
 
         [BindProperty(SupportsGet = true)]
         public int PageNum {get; set;} = 1;
@@ -30,6 +33,15 @@ namespace CerasWorkshop.Pages_Orders
 
         [BindProperty(SupportsGet = true)]
         public string CurrentSearch{get; set;} = string.Empty;
+
+        [DataType(DataType.Currency)]
+        public decimal Shipping {get; set;}
+
+        [DataType(DataType.Currency)]
+        public decimal Tax {get; set;}
+
+        [DataType(DataType.Currency)]
+        public decimal Total {get; set;}
 
         public async Task OnGetAsync()
         {
@@ -59,6 +71,14 @@ namespace CerasWorkshop.Pages_Orders
             TotalPages = (int)Math.Ceiling(_context.Orders.Count() / (double)PageSize);
 
             Order = await query.Skip((PageNum-1)*PageSize).Take(PageSize).ToListAsync();
+
+            foreach (var order in Order)
+            {
+
+                Shipping = 19.99M;
+                Tax = Order.ProductOrder.Product.Price * .0825M;
+                Total = Product.Price + Shipping + Tax;
+            }
         }
     }
 }
