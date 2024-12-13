@@ -41,7 +41,7 @@ namespace CerasWorkshop.Pages_Orders
         public decimal Tax {get; set;}
 
         [DataType(DataType.Currency)]
-        public decimal Total {get; set;}
+        public List<decimal> Total {get; set;} = new();
 
         public async Task OnGetAsync()
         {
@@ -74,10 +74,17 @@ namespace CerasWorkshop.Pages_Orders
 
             foreach (var order in Order)
             {
-
                 Shipping = 19.99M;
-                Tax = Order.ProductOrder.Product.Price * .0825M;
-                Total = Product.Price + Shipping + Tax;
+                Tax = 0M;
+                var total = 0M;
+
+                foreach (var p in order.ProductOrders!)
+                {
+                    Tax = p.Product.Price * .0825M;
+                    total += p.Product.Price + Shipping + Tax;
+                }
+
+                Total.Add(total);
             }
         }
     }
