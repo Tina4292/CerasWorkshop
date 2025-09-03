@@ -18,7 +18,7 @@ A modern web application built with ASP.NET Core (C#) delivering [brief project 
 
 ##  Demo
 
-**YouTube Demo:** [youtube.com/@tina4292](https://youtu.be/7e3HA0JXE4Y)
+**YouTube Demo:** [Cera's Workshop Demo](https://youtu.be/7e3HA0JXE4Y)
 
 ---
 
